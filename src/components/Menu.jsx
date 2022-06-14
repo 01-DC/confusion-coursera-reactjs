@@ -3,10 +3,10 @@ import {
 	Card,
 	CardImg,
 	CardImgOverlay,
-	CardText,
-	CardBody,
 	CardTitle,
 } from "reactstrap"
+
+import DishDetail from "./DishDetail"
 
 const Menu = ({ dishes }) => {
 	const [selectedDish, setSelectedDish] = useState(null)
@@ -28,19 +28,7 @@ const Menu = ({ dishes }) => {
 		<div className="container">
 			<div className="row">{menu}</div>
 			{selectedDish != null ? (
-				<div className="row">
-					<Card>
-						<CardImg
-							width="100%"
-							src={selectedDish.image}
-							alt={selectedDish.name}
-						/>
-						<CardBody>
-							<CardTitle>{selectedDish.name}</CardTitle>
-							<CardText>{selectedDish.description}</CardText>
-						</CardBody>
-					</Card>
-				</div>
+				<DishDetail selectedDish={selectedDish} />
 			) : (
 				<div></div>
 			)}
