@@ -17,6 +17,9 @@ const DishDetail = ({ selectedDish, comments }) => {
 			<div className="row">
 				<Breadcrumb>
 					<BreadcrumbItem>
+						<Link to="/home">Home</Link>
+					</BreadcrumbItem>
+					<BreadcrumbItem>
 						<Link to="/menu">Menu</Link>
 					</BreadcrumbItem>
 					<BreadcrumbItem active>{selectedDish.name}</BreadcrumbItem>
