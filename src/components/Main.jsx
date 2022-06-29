@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useParams } from "react-router-dom"
 
 import { DISHES } from "../data/dishes"
 import { COMMENTS } from "../data/comments"
@@ -8,6 +8,7 @@ import { PROMOTIONS } from "../data/promotions"
 
 import Home from "./Home"
 import Menu from "./Menu"
+import DishDetail from "./DishDetail"
 import Header from "./Header"
 import Footer from "./Footer"
 import Contact from "./Contact"
@@ -17,6 +18,18 @@ function Main() {
 	const [comments, setComments] = useState(COMMENTS)
 	const [leaders, setLeaders] = useState(LEADERS)
 	const [promotions, setPromotions] = useState(PROMOTIONS)
+
+	const DishWithId = () => {
+		const { dishId } = useParams()
+		return (
+			<DishDetail
+				selectedDish={dishes.filter((dish) => dish.id == dishId)[0]}
+				comments={comments.filter(
+					(comment) => comment.dishId == dishId
+				)}
+			/>
+		)
+	}
 
 	return (
 		<div>
@@ -37,6 +50,7 @@ function Main() {
 					}
 				/>
 				<Route exact path="/menu" element={<Menu dishes={dishes} />} />
+				<Route path="/menu/:dishId" element={<DishWithId />} />
 				<Route exact path="/contactus" element={<Contact />} />
 				<Route path="*" element={<Home />} />
 			</Routes>

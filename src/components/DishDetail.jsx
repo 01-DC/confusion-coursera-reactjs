@@ -1,9 +1,31 @@
 import React from "react"
-import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap"
+import { Link } from "react-router-dom"
 
-const DishDetail = ({ selectedDish }) => {
+import {
+	Card,
+	CardImg,
+	CardText,
+	CardBody,
+	CardTitle,
+	Breadcrumb,
+	BreadcrumbItem,
+} from "reactstrap"
+
+const DishDetail = ({ selectedDish, comments }) => {
 	return (
 		<div className="container">
+			<div className="row">
+				<Breadcrumb>
+					<BreadcrumbItem>
+						<Link to="/menu">Menu</Link>
+					</BreadcrumbItem>
+					<BreadcrumbItem active>{selectedDish.name}</BreadcrumbItem>
+				</Breadcrumb>
+				<div className="col-12">
+					<h3>{selectedDish.name}</h3>
+					<hr />
+				</div>
+			</div>
 			<div className="row">
 				<div className="col-12 col-md-5 m-1">
 					<Card>
@@ -20,7 +42,7 @@ const DishDetail = ({ selectedDish }) => {
 				</div>
 				<div className="col-12 col-md-5 m-1">
 					<h4>Comments</h4>
-					{selectedDish.comments.map((comment) => {
+					{comments.map((comment) => {
 						return (
 							<div key={comment.id} className="my-2">
 								<p>{comment.comment}</p>
