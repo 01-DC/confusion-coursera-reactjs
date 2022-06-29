@@ -12,6 +12,7 @@ import DishDetail from "./DishDetail"
 import Header from "./Header"
 import Footer from "./Footer"
 import Contact from "./Contact"
+import About from "./About"
 
 function Main() {
 	const [dishes, setDishes] = useState(DISHES)
@@ -51,6 +52,7 @@ function Main() {
 				/>
 				<Route exact path="/menu" element={<Menu dishes={dishes} />} />
 				<Route path="/menu/:dishId" element={<DishWithId />} />
+				<Route path="/aboutus" element={<About leaders={leaders} />} />
 				<Route exact path="/contactus" element={<Contact />} />
 				<Route path="*" element={<Home />} />
 			</Routes>
