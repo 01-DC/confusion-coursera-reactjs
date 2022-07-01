@@ -54,7 +54,20 @@ function Main() {
 				<Route path="/menu/:dishId" element={<DishWithId />} />
 				<Route path="/aboutus" element={<About leaders={leaders} />} />
 				<Route exact path="/contactus" element={<Contact />} />
-				<Route path="*" element={<Home />} />
+				<Route
+					path="*"
+					element={
+						<Home
+							dish={dishes.filter((dish) => dish.featured)[0]}
+							promotion={
+								promotions.filter((promo) => promo.featured)[0]
+							}
+							leader={
+								leaders.filter((leader) => leader.featured)[0]
+							}
+						/>
+					}
+				/>
 			</Routes>
 			<Footer />
 		</div>
