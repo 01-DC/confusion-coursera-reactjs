@@ -10,6 +10,7 @@ import {
 	Label,
 	Input,
 	Col,
+	FormFeedback,
 } from "reactstrap"
 
 export default function Contact() {
@@ -21,6 +22,12 @@ export default function Contact() {
 		agree: false,
 		contactType: "Tel.",
 		message: "",
+		touched: {
+			firstname: false,
+			lastname: false,
+			email: false,
+			telnum: false,
+		},
 	})
 
 	function handleInputChange(e) {
@@ -37,6 +44,53 @@ export default function Contact() {
 		e.preventDefault()
 		console.log("Current state is: " + JSON.stringify(formState))
 	}
+
+	const handleBlur = (field, e) => {
+		setFormState({
+			...formState,
+			touched: {
+				...formState.touched,
+				[field]: true,
+			},
+		})
+	}
+
+	function validate(firstname, lastname, email, telnum) {
+		const errors = {
+			firstname: "",
+			lastname: "",
+			email: "",
+			telnum: "",
+		}
+		if (formState.touched.firstname && firstname.length < 3)
+			errors.firstname = "First name should be >= to 3 characters"
+		else if (formState.touched.firstname && firstname.length > 10)
+			errors.firstname = "First name should be <= to 10 characters"
+		if (formState.touched.lastname && lastname.length < 3)
+			errors.lastname = "Last name should be >= to 3 characters"
+		else if (formState.touched.lastname && lastname.length > 10)
+			errors.lastname = "Last name should be <= to 10 characters"
+
+		const reg = /^\d+$/
+		if (formState.touched.telnum && !reg.test(telnum))
+			errors.telnum = "Tel. Number should contain only digits."
+
+		if (
+			formState.touched.email &&
+			email.split("").filter((x) => x === "@").length !== 1
+		)
+			errors.email = "Email should contain a @ sign."
+
+		return errors
+	}
+
+	const errors = validate(
+		formState.firstname,
+		formState.lastname,
+		formState.email,
+		formState.telnum
+	)
+
 	return (
 		<div className="container">
 			<div className="row">
@@ -113,9 +167,13 @@ export default function Contact() {
 									id="firstname"
 									name="firstname"
 									placeholder="First Name"
+									valid={errors.firstname === ""}
+									invalid={errors.firstname !== ""}
 									onChange={(e) => handleInputChange(e)}
+									onBlur={(e) => handleBlur("firstname", e)}
 									value={formState.firstname}
 								/>
+								<FormFeedback>{errors.firstname}</FormFeedback>
 							</Col>
 						</FormGroup>
 						<FormGroup row>
@@ -128,9 +186,13 @@ export default function Contact() {
 									id="lastname"
 									name="lastname"
 									placeholder="Last Name"
+									valid={errors.lastname === ""}
+									invalid={errors.lastname !== ""}
 									onChange={(e) => handleInputChange(e)}
+									onBlur={(e) => handleBlur("lastname", e)}
 									value={formState.lastname}
 								/>
+								<FormFeedback>{errors.lastname}</FormFeedback>
 							</Col>
 						</FormGroup>
 						<FormGroup row>
@@ -143,9 +205,13 @@ export default function Contact() {
 									id="telnum"
 									name="telnum"
 									placeholder="Tel. Number"
+									valid={errors.telnum === ""}
+									invalid={errors.telnum !== ""}
 									onChange={(e) => handleInputChange(e)}
+									onBlur={(e) => handleBlur("telnum", e)}
 									value={formState.telnum}
 								/>
+								<FormFeedback>{errors.telnum}</FormFeedback>
 							</Col>
 						</FormGroup>
 						<FormGroup row>
@@ -158,9 +224,13 @@ export default function Contact() {
 									id="email"
 									name="email"
 									placeholder="Email"
+									valid={errors.email === ""}
+									invalid={errors.email !== ""}
 									onChange={(e) => handleInputChange(e)}
+									onBlur={(e) => handleBlur("email", e)}
 									value={formState.email}
 								/>
+								<FormFeedback>{errors.email}</FormFeedback>
 							</Col>
 						</FormGroup>
 						<FormGroup row>
