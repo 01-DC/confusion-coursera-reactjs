@@ -23,9 +23,14 @@ export default function Contact() {
 		message: "",
 	})
 
-	function handleInputChange() {
-		const target= e.target
-		const value=target.type
+	function handleInputChange(e) {
+		const target = e.target
+		const value = target.type === "checkbox" ? target.checked : target.value
+		const name = target.name
+		setFormState({
+			...formState,
+			[name]: value,
+		})
 	}
 
 	function handleSubmit(e) {
@@ -97,7 +102,7 @@ export default function Contact() {
 					<h3>Send us Your Feedback</h3>
 				</div>
 				<div className="col-12 col-md-9">
-					<Form onSubmit={() => handleSubmit}>
+					<Form onSubmit={(e) => handleSubmit(e)}>
 						<FormGroup row>
 							<Label htmlFor="firstname" md={2}>
 								First Name
@@ -108,6 +113,7 @@ export default function Contact() {
 									id="firstname"
 									name="firstname"
 									placeholder="First Name"
+									onChange={(e) => handleInputChange(e)}
 									value={formState.firstname}
 								/>
 							</Col>
@@ -122,6 +128,7 @@ export default function Contact() {
 									id="lastname"
 									name="lastname"
 									placeholder="Last Name"
+									onChange={(e) => handleInputChange(e)}
 									value={formState.lastname}
 								/>
 							</Col>
@@ -136,6 +143,7 @@ export default function Contact() {
 									id="telnum"
 									name="telnum"
 									placeholder="Tel. Number"
+									onChange={(e) => handleInputChange(e)}
 									value={formState.telnum}
 								/>
 							</Col>
@@ -150,6 +158,7 @@ export default function Contact() {
 									id="email"
 									name="email"
 									placeholder="Email"
+									onChange={(e) => handleInputChange(e)}
 									value={formState.email}
 								/>
 							</Col>
@@ -161,6 +170,9 @@ export default function Contact() {
 										<Input
 											type="checkbox"
 											name="agree"
+											onChange={(e) =>
+												handleInputChange(e)
+											}
 											checked={formState.agree}
 										/>{" "}
 										<strong>May we contact you?</strong>
@@ -171,6 +183,7 @@ export default function Contact() {
 								<Input
 									type="select"
 									name="contactType"
+									onChange={(e) => handleInputChange(e)}
 									value={formState.contactType}>
 									<option>Tel.</option>
 									<option>Email</option>
@@ -187,6 +200,7 @@ export default function Contact() {
 									id="message"
 									name="message"
 									rows="12"
+									onChange={(e) => handleInputChange(e)}
 									value={formState.message}
 								/>
 							</Col>
