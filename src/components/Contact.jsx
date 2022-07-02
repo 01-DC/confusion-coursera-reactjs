@@ -1,9 +1,37 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
 
-import { Breadcrumb, BreadcrumbItem } from "reactstrap"
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	Button,
+	Form,
+	FormGroup,
+	Label,
+	Input,
+	Col,
+} from "reactstrap"
 
 export default function Contact() {
+	const [formState, setFormState] = useState({
+		firstname: "",
+		lastname: "",
+		telnum: "",
+		email: "",
+		agree: false,
+		contactType: "Tel.",
+		message: "",
+	})
+
+	function handleInputChange() {
+		const target= e.target
+		const value=target.type
+	}
+
+	function handleSubmit(e) {
+		e.preventDefault()
+		console.log("Current state is: " + JSON.stringify(formState))
+	}
 	return (
 		<div className="container">
 			<div className="row">
@@ -62,6 +90,115 @@ export default function Contact() {
 							<i className="fa fa-envelope-o"></i> Email
 						</a>
 					</div>
+				</div>
+			</div>
+			<div className="row row-content">
+				<div className="col-12">
+					<h3>Send us Your Feedback</h3>
+				</div>
+				<div className="col-12 col-md-9">
+					<Form onSubmit={() => handleSubmit}>
+						<FormGroup row>
+							<Label htmlFor="firstname" md={2}>
+								First Name
+							</Label>
+							<Col md={10}>
+								<Input
+									type="text"
+									id="firstname"
+									name="firstname"
+									placeholder="First Name"
+									value={formState.firstname}
+								/>
+							</Col>
+						</FormGroup>
+						<FormGroup row>
+							<Label htmlFor="lastname" md={2}>
+								Last Name
+							</Label>
+							<Col md={10}>
+								<Input
+									type="text"
+									id="lastname"
+									name="lastname"
+									placeholder="Last Name"
+									value={formState.lastname}
+								/>
+							</Col>
+						</FormGroup>
+						<FormGroup row>
+							<Label htmlFor="telnum" md={2}>
+								Contact Tel.
+							</Label>
+							<Col md={10}>
+								<Input
+									type="tel"
+									id="telnum"
+									name="telnum"
+									placeholder="Tel. Number"
+									value={formState.telnum}
+								/>
+							</Col>
+						</FormGroup>
+						<FormGroup row>
+							<Label htmlFor="email" md={2}>
+								Email
+							</Label>
+							<Col md={10}>
+								<Input
+									type="email"
+									id="email"
+									name="email"
+									placeholder="Email"
+									value={formState.email}
+								/>
+							</Col>
+						</FormGroup>
+						<FormGroup row>
+							<Col md={{ size: 6, offset: 2 }}>
+								<FormGroup check>
+									<Label check>
+										<Input
+											type="checkbox"
+											name="agree"
+											checked={formState.agree}
+										/>{" "}
+										<strong>May we contact you?</strong>
+									</Label>
+								</FormGroup>
+							</Col>
+							<Col md={{ size: 3, offset: 1 }}>
+								<Input
+									type="select"
+									name="contactType"
+									value={formState.contactType}>
+									<option>Tel.</option>
+									<option>Email</option>
+								</Input>
+							</Col>
+						</FormGroup>
+						<FormGroup row>
+							<Label htmlFor="message" md={2}>
+								Your Feedback
+							</Label>
+							<Col md={10}>
+								<Input
+									type="textarea"
+									id="message"
+									name="message"
+									rows="12"
+									value={formState.message}
+								/>
+							</Col>
+						</FormGroup>
+						<FormGroup row>
+							<Col md={{ size: 10, offset: 2 }}>
+								<Button type="submit" color="primary">
+									Send Feedback
+								</Button>
+							</Col>
+						</FormGroup>
+					</Form>
 				</div>
 			</div>
 		</div>
