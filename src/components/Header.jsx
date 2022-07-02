@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useRef } from "react"
 import { NavLink } from "react-router-dom"
 import {
 	Navbar,
@@ -8,10 +9,36 @@ import {
 	NavbarToggler,
 	Collapse,
 	NavItem,
+	Modal,
+	Button,
+	ModalHeader,
+	ModalBody,
+	Form,
+	FormGroup,
+	Input,
+	Label,
 } from "reactstrap"
 
 const Header = () => {
 	const [isNavOpen, setIsNavOpen] = useState(false)
+	const [isModalOpen, setIsModalOpen] = useState(false)
+
+	const username = useRef(null)
+	const password = useRef(null)
+	const remember = useRef(null)
+
+	function handleLogin(e) {
+		e.preventDefault()
+		setIsModalOpen(!isModalOpen)
+		alert(
+			"Username: " +
+				username.current.value +
+				" Password: " +
+				password.current.value +
+				" Remember: " +
+				remember.current.checked
+		)
+	}
 	return (
 		<>
 			<Navbar dark expand="md">
@@ -53,6 +80,19 @@ const Header = () => {
 								</NavLink>
 							</NavItem>
 						</Nav>
+						<Nav className="ml-auto" navbar>
+							<NavItem>
+								<Button
+									outline
+									onClick={() =>
+										setIsModalOpen(!isModalOpen)
+									}>
+									<span className="fa fa-sign-in fa-lg">
+										Login
+									</span>
+								</Button>
+							</NavItem>
+						</Nav>
 					</Collapse>
 				</div>
 			</Navbar>
@@ -71,6 +111,46 @@ const Header = () => {
 					</div>
 				</div>
 			</Jumbotron>
+			<Modal
+				isOpen={isModalOpen}
+				toggle={() => setIsModalOpen(!isModalOpen)}>
+				<ModalHeader>Login</ModalHeader>
+				<ModalBody>
+					<Form onSubmit={(e) => handleLogin(e)}>
+						<FormGroup>
+							<Label htmlFor="username">Username</Label>
+							<Input
+								type="text"
+								id="username"
+								name="username"
+								innerRef={username}
+							/>
+						</FormGroup>
+						<FormGroup>
+							<Label htmlFor="password">Password</Label>
+							<Input
+								type="password"
+								id="password"
+								name="password"
+								innerRef={password}
+							/>
+						</FormGroup>
+						<FormGroup check>
+							<Label check>
+								<Input
+									type="checkbox"
+									name="remember"
+									innerRef={remember}
+								/>
+								Remember Me
+							</Label>
+						</FormGroup>
+						<Button type="submit" value="submit" color="primary">
+							Login
+						</Button>
+					</Form>
+				</ModalBody>
+			</Modal>
 		</>
 	)
 }
