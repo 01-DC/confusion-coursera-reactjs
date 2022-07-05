@@ -1,10 +1,12 @@
 import React, { useState } from "react"
-import { Route, Routes, useParams } from "react-router-dom"
-
-import { DISHES } from "../data/dishes"
-import { COMMENTS } from "../data/comments"
-import { LEADERS } from "../data/leaders"
-import { PROMOTIONS } from "../data/promotions"
+import {
+	Route,
+	Routes,
+	useParams,
+	useLocation,
+	useNavigate,
+} from "react-router-dom"
+import { connect } from "react-redux"
 
 import Home from "./Home"
 import Menu from "./Menu"
@@ -14,12 +16,27 @@ import Footer from "./Footer"
 import Contact from "./Contact"
 import About from "./About"
 
-function Main() {
-	const [dishes, setDishes] = useState(DISHES)
-	const [comments, setComments] = useState(COMMENTS)
-	const [leaders, setLeaders] = useState(LEADERS)
-	const [promotions, setPromotions] = useState(PROMOTIONS)
+function withRouter(Component) {
+	function ComponentWithRouterProp(props) {
+		let location = useLocation()
+		let navigate = useNavigate()
+		let params = useParams()
+		return <Component {...props} router={{ location, navigate, params }} />
+	}
 
+	return ComponentWithRouterProp
+}
+
+const mapStateToProps = (state) => {
+	return {
+		dishes: state.dishes,
+		comments: state.comments,
+		promotions: state.promotions,
+		leaders: state.leaders,
+	}
+}
+
+function Main() {
 	const DishWithId = () => {
 		const { dishId } = useParams()
 		return (
@@ -74,4 +91,4 @@ function Main() {
 	)
 }
 
-export default Main
+export default withRouter(connect(mapStateToProps)(Main))
