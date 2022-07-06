@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import {
 	Route,
 	Routes,
@@ -6,7 +6,7 @@ import {
 	useLocation,
 	useNavigate,
 } from "react-router-dom"
-import { connect } from "react-redux"
+import { useSelector } from "react-redux"
 
 import Home from "./Home"
 import Menu from "./Menu"
@@ -16,27 +16,12 @@ import Footer from "./Footer"
 import Contact from "./Contact"
 import About from "./About"
 
-function withRouter(Component) {
-	function ComponentWithRouterProp(props) {
-		let location = useLocation()
-		let navigate = useNavigate()
-		let params = useParams()
-		return <Component {...props} router={{ location, navigate, params }} />
-	}
-
-	return ComponentWithRouterProp
-}
-
-const mapStateToProps = (state) => {
-	return {
-		dishes: state.dishes,
-		comments: state.comments,
-		promotions: state.promotions,
-		leaders: state.leaders,
-	}
-}
-
 function Main() {
+	const dishes = useSelector((state) => state.data.dishes)
+	const comments = useSelector((state) => state.data.comments)
+	const promotions = useSelector((state) => state.data.promotions)
+	const leaders = useSelector((state) => state.data.leaders)
+
 	const DishWithId = () => {
 		const { dishId } = useParams()
 		return (
@@ -91,4 +76,4 @@ function Main() {
 	)
 }
 
-export default withRouter(connect(mapStateToProps)(Main))
+export default Main
