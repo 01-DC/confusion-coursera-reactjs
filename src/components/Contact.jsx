@@ -1,95 +1,34 @@
-import React, { useState } from "react"
+import React from "react"
 import { Link } from "react-router-dom"
 
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	Button,
-	Form,
-	FormGroup,
-	Label,
-	Input,
-	Col,
-	FormFeedback,
-} from "reactstrap"
+import { Breadcrumb, BreadcrumbItem, Button, Label, Col } from "reactstrap"
+import { Formik, ErrorMessage, Form, Field } from "formik"
 
 export default function Contact() {
-	const [formState, setFormState] = useState({
-		firstname: "",
-		lastname: "",
-		telnum: "",
-		email: "",
-		agree: false,
-		contactType: "Tel.",
-		message: "",
-		touched: {
-			firstname: false,
-			lastname: false,
-			email: false,
-			telnum: false,
-		},
-	})
-
-	function handleInputChange(e) {
-		const target = e.target
-		const value = target.type === "checkbox" ? target.checked : target.value
-		const name = target.name
-		setFormState({
-			...formState,
-			[name]: value,
-		})
-	}
-
-	function handleSubmit(e) {
-		e.preventDefault()
-		console.log("Current state is: " + JSON.stringify(formState))
-	}
-
-	const handleBlur = (field, e) => {
-		setFormState({
-			...formState,
-			touched: {
-				...formState.touched,
-				[field]: true,
-			},
-		})
-	}
-
-	function validate(firstname, lastname, email, telnum) {
-		const errors = {
-			firstname: "",
-			lastname: "",
-			email: "",
-			telnum: "",
-		}
-		if (formState.touched.firstname && firstname.length < 3)
+	function validate(values) {
+		const errors = {}
+		if (values.firstname && values.firstname.length < 3)
 			errors.firstname = "First name should be >= to 3 characters"
-		else if (formState.touched.firstname && firstname.length > 10)
+		else if (values.firstname && values.firstname.length > 10)
 			errors.firstname = "First name should be <= to 10 characters"
-		if (formState.touched.lastname && lastname.length < 3)
+
+		if (values.lastname && values.lastname.length < 3)
 			errors.lastname = "Last name should be >= to 3 characters"
-		else if (formState.touched.lastname && lastname.length > 10)
+		else if (values.lastname && values.lastname.length > 10)
 			errors.lastname = "Last name should be <= to 10 characters"
 
 		const reg = /^\d+$/
-		if (formState.touched.telnum && !reg.test(telnum))
+		if (!reg.test(values.telnum))
 			errors.telnum = "Tel. Number should contain only digits."
 
 		if (
-			formState.touched.email &&
-			email.split("").filter((x) => x === "@").length !== 1
+			values.email &&
+			values.email.split("").filter((x) => x === "@").length !== 1
 		)
 			errors.email = "Email should contain a @ sign."
 
 		return errors
 	}
-
-	const errors = validate(
-		formState.firstname,
-		formState.lastname,
-		formState.email,
-		formState.telnum
-	)
 
 	return (
 		<div className="container">
@@ -156,133 +95,107 @@ export default function Contact() {
 					<h3>Send us Your Feedback</h3>
 				</div>
 				<div className="col-12 col-md-9">
-					<Form onSubmit={(e) => handleSubmit(e)}>
-						<FormGroup row>
-							<Label htmlFor="firstname" md={2}>
-								First Name
-							</Label>
-							<Col md={10}>
-								<Input
-									type="text"
-									id="firstname"
-									name="firstname"
-									placeholder="First Name"
-									valid={errors.firstname === ""}
-									invalid={errors.firstname !== ""}
-									onChange={(e) => handleInputChange(e)}
-									onBlur={(e) => handleBlur("firstname", e)}
-									value={formState.firstname}
-								/>
-								<FormFeedback>{errors.firstname}</FormFeedback>
-							</Col>
-						</FormGroup>
-						<FormGroup row>
-							<Label htmlFor="lastname" md={2}>
-								Last Name
-							</Label>
-							<Col md={10}>
-								<Input
-									type="text"
-									id="lastname"
-									name="lastname"
-									placeholder="Last Name"
-									valid={errors.lastname === ""}
-									invalid={errors.lastname !== ""}
-									onChange={(e) => handleInputChange(e)}
-									onBlur={(e) => handleBlur("lastname", e)}
-									value={formState.lastname}
-								/>
-								<FormFeedback>{errors.lastname}</FormFeedback>
-							</Col>
-						</FormGroup>
-						<FormGroup row>
-							<Label htmlFor="telnum" md={2}>
-								Contact Tel.
-							</Label>
-							<Col md={10}>
-								<Input
-									type="tel"
-									id="telnum"
-									name="telnum"
-									placeholder="Tel. Number"
-									valid={errors.telnum === ""}
-									invalid={errors.telnum !== ""}
-									onChange={(e) => handleInputChange(e)}
-									onBlur={(e) => handleBlur("telnum", e)}
-									value={formState.telnum}
-								/>
-								<FormFeedback>{errors.telnum}</FormFeedback>
-							</Col>
-						</FormGroup>
-						<FormGroup row>
-							<Label htmlFor="email" md={2}>
-								Email
-							</Label>
-							<Col md={10}>
-								<Input
-									type="email"
-									id="email"
-									name="email"
-									placeholder="Email"
-									valid={errors.email === ""}
-									invalid={errors.email !== ""}
-									onChange={(e) => handleInputChange(e)}
-									onBlur={(e) => handleBlur("email", e)}
-									value={formState.email}
-								/>
-								<FormFeedback>{errors.email}</FormFeedback>
-							</Col>
-						</FormGroup>
-						<FormGroup row>
-							<Col md={{ size: 6, offset: 2 }}>
-								<FormGroup check>
+					<Formik
+						initialValues={{
+							firstname: "",
+							lastname: "",
+							telnum: "",
+							email: "",
+							agree: false,
+							contactType: "tel",
+							message: "",
+						}}
+						validate={validate}
+						onSubmit={(values, actions) => {
+							console.log(
+								"Current state is: " + JSON.stringify(values)
+							)
+							actions.setSubmitting(false)
+						}}>
+						<Form>
+							<div className="row">
+								<Label htmlFor="firstname" md={2}>
+									First Name
+								</Label>
+								<Col md={10}>
+									<Field name="firstname" />
+									<ErrorMessage
+										name="firstname"
+										component="div"
+									/>
+								</Col>
+							</div>
+							<div className="row">
+								<Label htmlFor="lastname" md={2}>
+									Last Name
+								</Label>
+								<Col md={10}>
+									<Field name="lastname" />
+									<ErrorMessage
+										name="lastname"
+										component="div"
+									/>
+								</Col>
+							</div>
+							<div className="row">
+								<Label htmlFor="telnum" md={2}>
+									Contact Tel.
+								</Label>
+								<Col md={10}>
+									<Field type="tel" name="telnum" />
+									<ErrorMessage
+										name="telnum"
+										component="div"
+									/>
+								</Col>
+							</div>
+							<div className="row">
+								<Label htmlFor="email" md={2}>
+									Email
+								</Label>
+								<Col md={10}>
+									<Field type="email" name="email" />
+									<ErrorMessage
+										name="email"
+										component="div"
+									/>
+								</Col>
+							</div>
+							<div className="row">
+								<Col md={{ size: 6, offset: 2 }}>
 									<Label check>
-										<Input
-											type="checkbox"
-											name="agree"
-											onChange={(e) =>
-												handleInputChange(e)
-											}
-											checked={formState.agree}
-										/>{" "}
+										<Field type="checkbox" name="agree" />{" "}
 										<strong>May we contact you?</strong>
 									</Label>
-								</FormGroup>
-							</Col>
-							<Col md={{ size: 3, offset: 1 }}>
-								<Input
-									type="select"
-									name="contactType"
-									onChange={(e) => handleInputChange(e)}
-									value={formState.contactType}>
-									<option>Tel.</option>
-									<option>Email</option>
-								</Input>
-							</Col>
-						</FormGroup>
-						<FormGroup row>
-							<Label htmlFor="message" md={2}>
-								Your Feedback
-							</Label>
-							<Col md={10}>
-								<Input
-									type="textarea"
-									id="message"
-									name="message"
-									rows="12"
-									onChange={(e) => handleInputChange(e)}
-									value={formState.message}
-								/>
-							</Col>
-						</FormGroup>
-						<FormGroup row>
-							<Col md={{ size: 10, offset: 2 }}>
-								<Button type="submit" color="primary">
-									Send Feedback
-								</Button>
-							</Col>
-						</FormGroup>
-					</Form>
+								</Col>
+								<Col md={{ size: 3, offset: 1 }}>
+									<Field as="select" name="contactType">
+										<option value="tel">Tel.</option>
+										<option value="email">Email</option>
+									</Field>
+								</Col>
+							</div>
+							<div className="row">
+								<Label htmlFor="message" md={2}>
+									Your Feedback
+								</Label>
+								<Col md={10}>
+									<Field
+										as="textarea"
+										name="message"
+										rows="4"
+									/>
+								</Col>
+							</div>
+							<div className="row">
+								<Col md={{ size: 10, offset: 2 }}>
+									<Button type="submit" color="primary">
+										Send Feedback
+									</Button>
+								</Col>
+							</div>
+						</Form>
+					</Formik>
 				</div>
 			</div>
 		</div>
