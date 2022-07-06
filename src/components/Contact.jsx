@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-import { Breadcrumb, BreadcrumbItem, Button, Label, Col } from "reactstrap"
+import { Breadcrumb, BreadcrumbItem, Button, Label, Col, Row } from "reactstrap"
 import { Formik, ErrorMessage, Form, Field } from "formik"
 
 export default function Contact() {
@@ -18,7 +18,7 @@ export default function Contact() {
 			errors.lastname = "Last name should be <= to 10 characters"
 
 		const reg = /^\d+$/
-		if (!reg.test(values.telnum))
+		if (values.telnum && !reg.test(values.telnum))
 			errors.telnum = "Tel. Number should contain only digits."
 
 		if (
@@ -113,69 +113,97 @@ export default function Contact() {
 							actions.setSubmitting(false)
 						}}>
 						<Form>
-							<div className="row">
+							<Row className="form-group">
 								<Label htmlFor="firstname" md={2}>
 									First Name
 								</Label>
 								<Col md={10}>
-									<Field name="firstname" />
+									<Field
+										name="firstname"
+										className="form-control"
+									/>
 									<ErrorMessage
 										name="firstname"
 										component="div"
 									/>
 								</Col>
-							</div>
-							<div className="row">
+							</Row>
+
+							<Row className="form-group">
 								<Label htmlFor="lastname" md={2}>
 									Last Name
 								</Label>
 								<Col md={10}>
-									<Field name="lastname" />
+									<Field
+										name="lastname"
+										className="form-control"
+									/>
 									<ErrorMessage
 										name="lastname"
 										component="div"
 									/>
 								</Col>
-							</div>
-							<div className="row">
+							</Row>
+
+							<Row className="form-group">
 								<Label htmlFor="telnum" md={2}>
 									Contact Tel.
 								</Label>
 								<Col md={10}>
-									<Field type="tel" name="telnum" />
+									<Field
+										type="tel"
+										name="telnum"
+										className="form-control"
+									/>
 									<ErrorMessage
 										name="telnum"
 										component="div"
 									/>
 								</Col>
-							</div>
-							<div className="row">
+							</Row>
+
+							<Row className="form-group">
 								<Label htmlFor="email" md={2}>
 									Email
 								</Label>
 								<Col md={10}>
-									<Field type="email" name="email" />
+									<Field
+										type="email"
+										name="email"
+										className="form-control"
+									/>
 									<ErrorMessage
 										name="email"
 										component="div"
 									/>
 								</Col>
-							</div>
-							<div className="row">
+							</Row>
+
+							<Row className="form-group">
 								<Col md={{ size: 6, offset: 2 }}>
-									<Label check>
-										<Field type="checkbox" name="agree" />{" "}
-										<strong>May we contact you?</strong>
-									</Label>
+									<div className="form-check">
+										<Label check>
+											<Field
+												type="checkbox"
+												name="agree"
+												className="form-check-input"
+											/>{" "}
+											<strong>May we contact you?</strong>
+										</Label>
+									</div>
 								</Col>
 								<Col md={{ size: 3, offset: 1 }}>
-									<Field as="select" name="contactType">
+									<Field
+										as="select"
+										name="contactType"
+										className="form-control">
 										<option value="tel">Tel.</option>
 										<option value="email">Email</option>
 									</Field>
 								</Col>
-							</div>
-							<div className="row">
+							</Row>
+
+							<Row className="form-group">
 								<Label htmlFor="message" md={2}>
 									Your Feedback
 								</Label>
@@ -184,16 +212,18 @@ export default function Contact() {
 										as="textarea"
 										name="message"
 										rows="4"
+										className="form-control"
 									/>
 								</Col>
-							</div>
-							<div className="row">
+							</Row>
+
+							<Row className="form-group">
 								<Col md={{ size: 10, offset: 2 }}>
 									<Button type="submit" color="primary">
 										Send Feedback
 									</Button>
 								</Col>
-							</div>
+							</Row>
 						</Form>
 					</Formik>
 				</div>
