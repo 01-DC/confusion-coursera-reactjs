@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
 
 import {
@@ -9,9 +9,27 @@ import {
 	CardTitle,
 	Breadcrumb,
 	BreadcrumbItem,
+	Button,
+	Modal,
+	ModalHeader,
+	ModalBody,
+	Label,
 } from "reactstrap"
+import { Formik, ErrorMessage, Form, Field } from "formik"
 
 const DishDetail = ({ selectedDish, comments }) => {
+	const [showModal, setShowModal] = useState(false)
+
+	function validate(values) {
+		const errors = {}
+		if (values.name && values.name.length < 3)
+			errors.name = "Name should be >= to 3 characters"
+		else if (values.name && values.name.length > 30)
+			errors.name = "Name should be <= to 30 characters"
+
+		return errors
+	}
+
 	return (
 		<div className="container">
 			<div className="row">
@@ -65,8 +83,70 @@ const DishDetail = ({ selectedDish, comments }) => {
 							</div>
 						)
 					})}
+					<Button
+						outline
+						color="secondary"
+						onClick={() => setShowModal(!showModal)}>
+						<span className="fa fa-pencil"></span> Submit Comment
+					</Button>
 				</div>
 			</div>
+			<Modal
+				scrollable
+				isOpen={showModal}
+				toggle={() => setShowModal(!showModal)}>
+				<ModalHeader toggle={() => setShowModal(!showModal)}>
+					Submit Comment
+				</ModalHeader>
+				<ModalBody>
+					<Formik
+						initialValues={{
+							rating: "1",
+							name: "",
+							message: "",
+						}}
+						validate={validate}
+						onSubmit={(values, actions) => {
+							console.log(
+								"Current state is: " + JSON.stringify(values)
+							)
+							actions.setSubmitting(false)
+						}}>
+						<Form>
+							<Label htmlFor="rating">Rating</Label>
+							<Field
+								type="number"
+								name="rating"
+								min="0"
+								max="5"
+								className="form-control"
+							/>
+							<Label htmlFor="name">Name</Label>
+							<Field name="name" className="form-control" />
+							<ErrorMessage
+								name="name"
+								component="div"
+								className="text-danger"
+							/>
+
+							<Label htmlFor="message">Comment</Label>
+							<Field
+								as="textarea"
+								name="message"
+								rows="4"
+								className="form-control"
+							/>
+
+							<Button
+								type="submit"
+								color="primary"
+								onClick={() => setShowModal(!showModal)}>
+								Submit
+							</Button>
+						</Form>
+					</Formik>
+				</ModalBody>
+			</Modal>
 		</div>
 	)
 }
