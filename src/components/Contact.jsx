@@ -125,6 +125,7 @@ export default function Contact() {
 									<ErrorMessage
 										name="firstname"
 										component="div"
+										className="text-danger"
 									/>
 								</Col>
 							</Row>
@@ -141,6 +142,7 @@ export default function Contact() {
 									<ErrorMessage
 										name="lastname"
 										component="div"
+										className="text-danger"
 									/>
 								</Col>
 							</Row>
@@ -158,6 +160,7 @@ export default function Contact() {
 									<ErrorMessage
 										name="telnum"
 										component="div"
+										className="text-danger"
 									/>
 								</Col>
 							</Row>
@@ -175,6 +178,7 @@ export default function Contact() {
 									<ErrorMessage
 										name="email"
 										component="div"
+										className="text-danger"
 									/>
 								</Col>
 							</Row>
