@@ -7,7 +7,11 @@ export const dishesSlice = createSlice({
 	initialState: {
 		dishes: DISHES,
 	},
-	reducers: {},
+	reducers: {
+		dishesLoading: (state, action) => {},
+		dishesFailed: (state, action) => {},
+		addDishes: (state, action) => {},
+	},
 })
 
 export default dishesSlice.reducer

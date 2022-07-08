@@ -1,4 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit"
+import logger from "redux-logger"
+
 import dishesReducer from "./dishesSlice"
 import commentsReducer from "./commentsSlice"
 import promotionsReducer from "./promotionsSlice"
@@ -11,4 +13,5 @@ export default configureStore({
 		promotions: promotionsReducer,
 		leaders: leadersReducer,
 	},
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
 })
