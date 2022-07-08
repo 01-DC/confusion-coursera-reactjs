@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
+import { useDispatch } from "react-redux"
 
 import {
 	Card,
@@ -16,9 +17,11 @@ import {
 	Label,
 } from "reactstrap"
 import { Formik, ErrorMessage, Form, Field } from "formik"
+import { addComment } from "../redux/commentsSlice"
 
 const DishDetail = ({ selectedDish, comments }) => {
 	const [showModal, setShowModal] = useState(false)
+	const dispatch = useDispatch()
 
 	function validate(values) {
 		const errors = {}
@@ -107,6 +110,14 @@ const DishDetail = ({ selectedDish, comments }) => {
 						}}
 						validate={validate}
 						onSubmit={(values, actions) => {
+							dispatch(
+								addComment({
+									dishId: selectedDish.id,
+									rating: values.rating,
+									author: values.name,
+									comment: values.message,
+								})
+							)
 							console.log(
 								"Current state is: " + JSON.stringify(values)
 							)
