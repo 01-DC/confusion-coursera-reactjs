@@ -1,8 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit"
-import dataReducer from "./reducer"
+import dishesReducer from "./dishesSlice"
+import commentsReducer from "./commentsSlice"
+import promotionsReducer from "./promotionsSlice"
+import leadersReducer from "./leadersSlice"
 
-export const store = configureStore({
+export default configureStore({
 	reducer: {
-		data: dataReducer,
+		dishes: dishesReducer,
+		comments: commentsReducer,
+		promotions: promotionsReducer,
+		leaders: leadersReducer,
 	},
 })

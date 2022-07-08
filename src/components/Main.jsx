@@ -1,11 +1,5 @@
 import React from "react"
-import {
-	Route,
-	Routes,
-	useParams,
-	useLocation,
-	useNavigate,
-} from "react-router-dom"
+import { Route, Routes, useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 
 import Home from "./Home"
@@ -17,10 +11,10 @@ import Contact from "./Contact"
 import About from "./About"
 
 function Main() {
-	const dishes = useSelector((state) => state.data.dishes)
-	const comments = useSelector((state) => state.data.comments)
-	const promotions = useSelector((state) => state.data.promotions)
-	const leaders = useSelector((state) => state.data.leaders)
+	const dishes = useSelector((state) => state.dishes.dishes)
+	const comments = useSelector((state) => state.comments.comments)
+	const promotions = useSelector((state) => state.promotions.promotions)
+	const leaders = useSelector((state) => state.leaders.leaders)
 
 	const DishWithId = () => {
 		const { dishId } = useParams()
