@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { addComment } from "../redux/commentsSlice"
 
 import {
 	Card,
@@ -17,11 +18,13 @@ import {
 	Label,
 } from "reactstrap"
 import { Formik, ErrorMessage, Form, Field } from "formik"
-import { addComment } from "../redux/commentsSlice"
+
+import Loader from "./Loader"
 
 const DishDetail = ({ selectedDish, comments }) => {
 	const [showModal, setShowModal] = useState(false)
 	const dispatch = useDispatch()
+	const { isLoading, errMess } = useSelector((state) => state.dishes)
 
 	function validate(values) {
 		const errors = {}
@@ -32,6 +35,22 @@ const DishDetail = ({ selectedDish, comments }) => {
 
 		return errors
 	}
+
+	if (isLoading)
+		return (
+			<div className="container">
+				<div className="row">
+					<Loader />
+				</div>
+			</div>
+		)
+
+	if (errMess)
+		return (
+			<div className="container">
+				<div className="row">{errMess}</div>
+			</div>
+		)
 
 	return (
 		<div className="container">

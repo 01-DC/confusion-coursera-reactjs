@@ -1,4 +1,7 @@
 import React from "react"
+import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
+
 import {
 	Card,
 	CardImg,
@@ -7,9 +10,12 @@ import {
 	Breadcrumb,
 	BreadcrumbItem,
 } from "reactstrap"
-import { Link } from "react-router-dom"
+
+import Loader from "./Loader"
 
 const Menu = ({ dishes }) => {
+	const { isLoading, errMess } = useSelector((state) => state.dishes)
+
 	const menu = dishes.map((dish) => {
 		return (
 			<div key={dish.id} className="col-12 col-md-5 m-1">
@@ -28,6 +34,22 @@ const Menu = ({ dishes }) => {
 			</div>
 		)
 	})
+
+	if (isLoading)
+		return (
+			<div className="container">
+				<div className="row">
+					<Loader />
+				</div>
+			</div>
+		)
+
+	if (errMess)
+		return (
+			<div className="container">
+				<div className="row">{errMess}</div>
+			</div>
+		)
 
 	return (
 		<div className="container">
