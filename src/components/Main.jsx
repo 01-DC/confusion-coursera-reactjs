@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Route, Routes, useParams } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+
+import { fetchDishes } from "../redux/dishesSlice"
 
 import Home from "./Home"
 import Menu from "./Menu"
@@ -15,6 +17,11 @@ function Main() {
 	const comments = useSelector((state) => state.comments.comments)
 	const promotions = useSelector((state) => state.promotions.promotions)
 	const leaders = useSelector((state) => state.leaders.leaders)
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		dispatch(fetchDishes())
+	}, [])
 
 	const DishWithId = () => {
 		const { dishId } = useParams()

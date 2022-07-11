@@ -1,4 +1,5 @@
 import React from "react"
+import { useSelector } from "react-redux"
 import {
 	Card,
 	CardImg,
@@ -8,7 +9,12 @@ import {
 	CardSubtitle,
 } from "reactstrap"
 
+import Loader from "./Loader"
+
 function RenderCard({ item }) {
+	const { isLoading, errMess } = useSelector((state) => state.dishes)
+	if (isLoading) return <Loader />
+	if (errMess) return <h4>{errMess}</h4>
 	return (
 		<Card>
 			<CardImg src={item.image} alt={item.name} />
