@@ -4,7 +4,9 @@ import { baseUrl } from "../data/baseUrl"
 export const fetchComments = createAsyncThunk(
 	"comments/fetchComments",
 	async () => {
-		const response = await fetch(baseUrl + "comments")
+		const response = await fetch(baseUrl + "comments", {
+			mode: "cors",
+		})
 		if (response.ok) return response.json()
 		else return Promise.reject(`${response.status}: ${response.statusText}`)
 	}
@@ -23,8 +25,9 @@ export const postComment = createAsyncThunk(
 			body: JSON.stringify(comment),
 			headers: {
 				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
 			},
-			credentials: "same-origin",
+			credentials: "cross-origin",
 		})
 		if (response.ok) return response.json()
 		else return Promise.reject(`${response.status}: ${response.statusText}`)

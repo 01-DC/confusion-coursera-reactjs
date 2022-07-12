@@ -4,7 +4,9 @@ import { baseUrl } from "../data/baseUrl"
 export const fetchPromotions = createAsyncThunk(
 	"promotions/fetchPromotions",
 	async () => {
-		const response = await fetch(baseUrl + "promotions")
+		const response = await fetch(baseUrl + "promotions", {
+			mode: "cors",
+		})
 		if (response.ok) return response.json()
 		else return Promise.reject(`${response.status}: ${response.statusText}`)
 	}

@@ -2,7 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { baseUrl } from "../data/baseUrl"
 
 export const fetchDishes = createAsyncThunk("dishes/fetchDishes", async () => {
-	const response = await fetch(baseUrl + "dishes")
+	const response = await fetch(baseUrl + "dishes", {
+		mode: "cors",
+	})
 	if (response.ok) return response.json()
 	else return Promise.reject(`${response.status}: ${response.statusText}`)
 })

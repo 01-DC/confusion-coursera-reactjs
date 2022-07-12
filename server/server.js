@@ -4,7 +4,7 @@ const router = jsonServer.router("db.json")
 const middlewares = jsonServer.defaults()
 
 server.use((req, res, next) => {
-	setTimeout(next, 2000)
+	setTimeout(next, 600)
 })
 const port = process.env.PORT || 3001
 
