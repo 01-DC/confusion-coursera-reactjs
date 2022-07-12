@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { addComment } from "../redux/commentsSlice"
+import { postComment } from "../redux/commentsSlice"
 
 import {
 	Card,
@@ -131,7 +131,7 @@ const DishDetail = ({ selectedDish, comments }) => {
 						validate={validate}
 						onSubmit={(values, actions) => {
 							dispatch(
-								addComment({
+								postComment({
 									dishId: selectedDish.id,
 									rating: values.rating,
 									author: values.name,

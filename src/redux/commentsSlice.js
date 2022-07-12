@@ -5,7 +5,29 @@ export const fetchComments = createAsyncThunk(
 	"comments/fetchComments",
 	async () => {
 		const response = await fetch(baseUrl + "comments")
-		return response.json()
+		if (response.ok) return response.json()
+		else return Promise.reject(`${response.status}: ${response.statusText}`)
+	}
+)
+
+export const postComment = createAsyncThunk(
+	"comments/postComment",
+	async (arg, { getState }) => {
+		const comment = {
+			...arg,
+			id: getState().comments.length,
+			date: new Date().toISOString(),
+		}
+		const response = await fetch(baseUrl + "comments", {
+			method: "POST",
+			body: JSON.stringify(comment),
+			headers: {
+				"Content-Type": "application/json",
+			},
+			credentials: "same-origin",
+		})
+		if (response.ok) return response.json()
+		else return Promise.reject(`${response.status}: ${response.statusText}`)
 	}
 )
 
@@ -13,16 +35,13 @@ export const commentsSlice = createSlice({
 	name: "comments",
 	initialState: {
 		comments: [],
-		errMess: null
+		errMess: null,
 	},
 	reducers: {
 		addComment: (state, action) => {
 			state.comments.push({
+				...action.payload,
 				id: state.comments.length,
-				dishId: action.payload.dishId,
-				rating: action.payload.rating,
-				comment: action.payload.comment,
-				author: action.payload.author,
 				date: new Date().toISOString(),
 			})
 		},
@@ -45,6 +64,21 @@ export const commentsSlice = createSlice({
 				...state,
 				errMess: action.payload,
 				comments: [],
+			}
+		},
+		[postComment.pending]: (state, action) => {
+			console.log("Posting comment")
+		},
+		[postComment.fulfilled]: (state, action) => {
+			console.log("Post Successful.")
+			state.errMess = null
+			state.comments.push(action.payload)
+		},
+		[postComment.rejected]: (state, action) => {
+			console.log("Post failed.")
+			return {
+				...state,
+				errMess: action.payload,
 			}
 		},
 	},
