@@ -45,7 +45,7 @@ const Header = () => {
 					<NavbarToggler onClick={() => setIsNavOpen(!isNavOpen)} />
 					<NavbarBrand className="mr-auto" href="/">
 						<img
-							src="/src/assets/logo.png"
+							src="../assets/logo.png"
 							height="30"
 							width="41"
 							alt="Ristorante Con Fusion"
