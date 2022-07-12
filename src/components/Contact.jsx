@@ -1,10 +1,14 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import { useDispatch } from "react-redux"
 
 import { Breadcrumb, BreadcrumbItem, Button, Label, Col, Row } from "reactstrap"
 import { Formik, ErrorMessage, Form, Field } from "formik"
+import { postFeedback } from "../redux/feedbackSlice"
 
 export default function Contact() {
+	const dispatch = useDispatch()
+
 	function validate(values) {
 		const errors = {}
 		if (values.firstname && values.firstname.length < 3)
@@ -107,10 +111,9 @@ export default function Contact() {
 						}}
 						validate={validate}
 						onSubmit={(values, actions) => {
-							console.log(
-								"Current state is: " + JSON.stringify(values)
-							)
+							dispatch(postFeedback(values))
 							actions.setSubmitting(false)
+							actions.resetForm()
 						}}>
 						<Form>
 							<Row className="form-group">

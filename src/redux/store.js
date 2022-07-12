@@ -5,6 +5,7 @@ import dishesReducer from "./dishesSlice"
 import commentsReducer from "./commentsSlice"
 import promotionsReducer from "./promotionsSlice"
 import leadersReducer from "./leadersSlice"
+import feedbackReducer from "./feedbackSlice"
 
 export default configureStore({
 	reducer: {
@@ -12,6 +13,7 @@ export default configureStore({
 		comments: commentsReducer,
 		promotions: promotionsReducer,
 		leaders: leadersReducer,
+		feedback: feedbackReducer,
 	},
-	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 })
