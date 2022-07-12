@@ -62,7 +62,7 @@ export const commentsSlice = createSlice({
 			console.log("Fetch failed.")
 			return {
 				...state,
-				errMess: action.payload,
+				errMess: action.error.message,
 				comments: [],
 			}
 		},
@@ -78,7 +78,7 @@ export const commentsSlice = createSlice({
 			console.log("Post failed.")
 			return {
 				...state,
-				errMess: action.payload,
+				errMess: action.error.message,
 			}
 		},
 	},
