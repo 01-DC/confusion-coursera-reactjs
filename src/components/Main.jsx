@@ -1,6 +1,7 @@
 import React, { useEffect } from "react"
-import { Route, Routes, useParams } from "react-router-dom"
+import { Route, Routes, useParams, useLocation } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
+import { TransitionGroup, CSSTransition } from "react-transition-group"
 
 import { fetchDishes } from "../redux/dishesSlice"
 import { fetchComments } from "../redux/commentsSlice"
@@ -20,6 +21,7 @@ function Main() {
 	const promotions = useSelector((state) => state.promotions.promotions)
 	const leaders = useSelector((state) => state.leaders.leaders)
 	const dispatch = useDispatch()
+	const location = useLocation()
 
 	useEffect(() => {
 		dispatch(fetchDishes())
@@ -42,40 +44,44 @@ function Main() {
 	return (
 		<div>
 			<Header />
-			<Routes>
-				<Route
-					path="/home"
-					element={
-						<Home
-							dish={dishes.filter((dish) => dish.featured)[0]}
-							promotion={
-								promotions.filter((promo) => promo.featured)[0]
-							}
-							leader={
-								leaders.filter((leader) => leader.featured)[0]
-							}
-						/>
-					}
-				/>
-				<Route exact path="/menu" element={<Menu dishes={dishes} />} />
-				<Route path="/menu/:dishId" element={<DishWithId />} />
-				<Route path="/aboutus" element={<About leaders={leaders} />} />
-				<Route exact path="/contactus" element={<Contact />} />
-				<Route
-					path="*"
-					element={
-						<Home
-							dish={dishes.filter((dish) => dish.featured)[0]}
-							promotion={
-								promotions.filter((promo) => promo.featured)[0]
-							}
-							leader={
-								leaders.filter((leader) => leader.featured)[0]
-							}
-						/>
-					}
-				/>
-			</Routes>
+			<TransitionGroup component={null}>
+				<CSSTransition key={location.key} classNames="page" timeout={300}>
+				<Routes location={location}>
+					<Route
+						path="/home"
+						element={
+							<Home
+								dish={dishes.filter((dish) => dish.featured)[0]}
+								promotion={
+									promotions.filter((promo) => promo.featured)[0]
+								}
+								leader={
+									leaders.filter((leader) => leader.featured)[0]
+								}
+							/>
+						}
+					/>
+					<Route exact path="/menu" element={<Menu dishes={dishes} />} />
+					<Route path="/menu/:dishId" element={<DishWithId />} />
+					<Route path="/aboutus" element={<About leaders={leaders} />} />
+					<Route exact path="/contactus" element={<Contact />} />
+					<Route
+						path="*"
+						element={
+							<Home
+								dish={dishes.filter((dish) => dish.featured)[0]}
+								promotion={
+									promotions.filter((promo) => promo.featured)[0]
+								}
+								leader={
+									leaders.filter((leader) => leader.featured)[0]
+								}
+							/>
+						}
+					/>
+				</Routes>
+				</CSSTransition>
+			</TransitionGroup>
 			<Footer />
 		</div>
 	)
