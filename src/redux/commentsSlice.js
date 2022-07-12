@@ -27,7 +27,6 @@ export const postComment = createAsyncThunk(
 				"Content-Type": "application/json",
 				"Access-Control-Allow-Origin": "*",
 			},
-			credentials: "cross-origin",
 		})
 		if (response.ok) return response.json()
 		else return Promise.reject(`${response.status}: ${response.statusText}`)
