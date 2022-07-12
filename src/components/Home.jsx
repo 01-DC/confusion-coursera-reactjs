@@ -15,7 +15,7 @@ import Loader from "./Loader"
 function RenderCard({ item, itemType }) {
 	const { isLoading, errMess } = !!itemType
 		? useSelector((state) => state[itemType])
-		: { undefined, undefined }
+		: {}
 
 	if (isLoading) return <Loader />
 

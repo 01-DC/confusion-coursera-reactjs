@@ -5,7 +5,8 @@ export const fetchPromotions = createAsyncThunk(
 	"promotions/fetchPromotions",
 	async () => {
 		const response = await fetch(baseUrl + "promotions")
-		return response.json()
+		if (response.ok) return response.json()
+		else return Promise.reject(`${response.status}: ${response.statusText}`)
 	}
 )
 
@@ -14,7 +15,7 @@ export const promotionsSlice = createSlice({
 	initialState: {
 		promotions: [],
 		errMess: null,
-		isLoading: true
+		isLoading: true,
 	},
 	reducers: {},
 	extraReducers: {
@@ -35,7 +36,7 @@ export const promotionsSlice = createSlice({
 			return {
 				...state,
 				isLoading: false,
-				errMess: action.payload,
+				errMess: action.error.message,
 				promotions: [],
 			}
 		},

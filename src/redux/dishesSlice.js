@@ -3,7 +3,8 @@ import { baseUrl } from "../data/baseUrl"
 
 export const fetchDishes = createAsyncThunk("dishes/fetchDishes", async () => {
 	const response = await fetch(baseUrl + "dishes")
-	return response.json()
+	if (response.ok) return response.json()
+	else return Promise.reject(`${response.status}: ${response.statusText}`)
 })
 
 export const dishesSlice = createSlice({
@@ -33,7 +34,7 @@ export const dishesSlice = createSlice({
 			return {
 				...state,
 				isLoading: false,
-				errMess: action.payload,
+				errMess: action.error.message,
 				dishes: [],
 			}
 		},
