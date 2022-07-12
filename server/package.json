@@ -1,0 +1,16 @@
+{
+	"name": "server",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "node server.js",
+		"dev": "json-server --watch db.json -d 2000 -p 3001",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Devanshu Chatterjee",
+	"license": "ISC",
+	"dependencies": {
+		"json-server": "^0.17.0"
+	}
+}
