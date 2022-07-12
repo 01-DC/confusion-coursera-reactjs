@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react"
 import { NavLink } from "react-router-dom"
+
 import {
 	Navbar,
 	NavbarBrand,
@@ -17,6 +18,8 @@ import {
 	Input,
 	Label,
 } from "reactstrap"
+
+import logo from "../assets/logo.png"
 
 const Header = () => {
 	const [isNavOpen, setIsNavOpen] = useState(false)
@@ -45,7 +48,7 @@ const Header = () => {
 					<NavbarToggler onClick={() => setIsNavOpen(!isNavOpen)} />
 					<NavbarBrand className="mr-auto" href="/">
 						<img
-							src="../assets/logo.png"
+							src={logo}
 							height="30"
 							width="41"
 							alt="Ristorante Con Fusion"
