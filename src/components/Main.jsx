@@ -6,6 +6,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group"
 import { fetchDishes } from "../redux/dishesSlice"
 import { fetchComments } from "../redux/commentsSlice"
 import { fetchPromotions } from "../redux/promotionsSlice"
+import { fetchLeaders } from "../redux/leadersSlice"
 
 import Home from "./Home"
 import Menu from "./Menu"
@@ -27,6 +28,7 @@ function Main() {
 		dispatch(fetchDishes())
 		dispatch(fetchComments())
 		dispatch(fetchPromotions())
+		dispatch(fetchLeaders())
 	}, [])
 
 	const DishWithId = () => {

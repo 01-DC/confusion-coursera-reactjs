@@ -46,7 +46,7 @@ const Home = ({ dish, promotion, leader }) => {
 					<RenderCard item={promotion} itemType="promotions" />
 				</div>
 				<div className="col-12 col-md m-1">
-					<RenderCard item={leader} />
+					<RenderCard item={leader} itemType="leaders" />
 				</div>
 			</div>
 		</div>

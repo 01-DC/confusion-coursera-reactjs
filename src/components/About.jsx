@@ -8,12 +8,13 @@ import {
 	Media,
 } from "reactstrap"
 import { Link } from "react-router-dom"
+import { baseUrl } from "../data/baseUrl"
 
 function RenderLeader({ leader }) {
 	return (
 		<Media tag="li" className="row mt-1">
 			<Media left middle className="col-2">
-				<Media object src={leader.image} alt={leader.name} />
+				<Media object src={baseUrl + leader.image} alt={leader.name} />
 			</Media>
 			<Media body className="col-10">
 				<Media heading>{leader.name}</Media>
