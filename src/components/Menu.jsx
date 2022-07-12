@@ -12,6 +12,7 @@ import {
 } from "reactstrap"
 
 import Loader from "./Loader"
+import { baseUrl } from "../data/baseUrl"
 
 const Menu = ({ dishes }) => {
 	const { isLoading, errMess } = useSelector((state) => state.dishes)
@@ -23,7 +24,7 @@ const Menu = ({ dishes }) => {
 					<Link to={`/menu/${dish.id}`}>
 						<CardImg
 							width="100%"
-							src={dish.image}
+							src={baseUrl + dish.image}
 							alt={dish.name}
 						/>
 						<CardImgOverlay>

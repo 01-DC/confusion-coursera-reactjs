@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite & npx json-server --watch db.json -d 2000 -p 3001",
     "build": "vite build",
     "preview": "vite preview"
   },

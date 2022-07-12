@@ -20,6 +20,7 @@ import {
 import { Formik, ErrorMessage, Form, Field } from "formik"
 
 import Loader from "./Loader"
+import { baseUrl } from "../data/baseUrl"
 
 const DishDetail = ({ selectedDish, comments }) => {
 	const [showModal, setShowModal] = useState(false)
@@ -74,7 +75,7 @@ const DishDetail = ({ selectedDish, comments }) => {
 					<Card>
 						<CardImg
 							width="100%"
-							src={selectedDish.image}
+							src={baseUrl + selectedDish.image}
 							alt={selectedDish.name}
 						/>
 						<CardBody>

@@ -3,6 +3,8 @@ import { Route, Routes, useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 
 import { fetchDishes } from "../redux/dishesSlice"
+import { fetchComments } from "../redux/commentsSlice"
+import { fetchPromotions } from "../redux/promotionsSlice"
 
 import Home from "./Home"
 import Menu from "./Menu"
@@ -21,6 +23,8 @@ function Main() {
 
 	useEffect(() => {
 		dispatch(fetchDishes())
+		dispatch(fetchComments())
+		dispatch(fetchPromotions())
 	}, [])
 
 	const DishWithId = () => {

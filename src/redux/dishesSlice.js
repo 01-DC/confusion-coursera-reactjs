@@ -1,6 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { baseUrl } from "../data/baseUrl"
 
-import { DISHES } from "../data/dishes"
+export const fetchDishes = createAsyncThunk("dishes/fetchDishes", async () => {
+	const response = await fetch(baseUrl + "dishes")
+	return response.json()
+})
 
 export const dishesSlice = createSlice({
 	name: "dishes",
@@ -9,31 +13,31 @@ export const dishesSlice = createSlice({
 		errMess: null,
 		dishes: [],
 	},
-	reducers: {
-		dishesLoading: (state, action) => {
-			state.isLoading = true
-			state.errMess = null
-			state.dishes = []
+	reducers: {},
+	extraReducers: {
+		[fetchDishes.pending]: (state, action) => {
+			console.log("Fetching dishes")
+			return { ...state, isLoading: true, errMess: null, dishes: [] }
 		},
-		dishesFailed: (state, action) => {
-			state.isLoading = false
-			state.errMess = action.payload
-			state.dishes = []
+		[fetchDishes.fulfilled]: (state, action) => {
+			console.log("Fetch Successful.")
+			return {
+				...state,
+				dishes: action.payload,
+				isLoading: false,
+				errMess: null,
+			}
 		},
-		addDishes: (state, action) => {
-			state.isLoading = false
-			state.errMess = null
-			state.dishes = action.payload
+		[fetchDishes.rejected]: (state, action) => {
+			console.log("Fetch failed.")
+			return {
+				...state,
+				isLoading: false,
+				errMess: action.payload,
+				dishes: [],
+			}
 		},
 	},
 })
 
-export const fetchDishes = () => async (dispatch, getState) => {
-	dispatch(dishesLoading(true))
-	setTimeout(() => {
-		dispatch(addDishes(DISHES))
-	}, 2000)
-}
-
-export const { addDishes, dishesLoading, dishesFailed } = dishesSlice.actions
 export default dishesSlice.reducer

@@ -8,17 +8,22 @@ import {
 	CardTitle,
 	CardSubtitle,
 } from "reactstrap"
+import { baseUrl } from "../data/baseUrl"
 
 import Loader from "./Loader"
 
-function RenderCard({ item, isLoading, errMess }) {
+function RenderCard({ item, itemType }) {
+	const { isLoading, errMess } = !!itemType
+		? useSelector((state) => state[itemType])
+		: { undefined, undefined }
+
 	if (isLoading) return <Loader />
 
 	if (errMess) return <h4>{errMess}</h4>
 
 	return (
 		<Card>
-			<CardImg src={item.image} alt={item.name} />
+			<CardImg src={baseUrl + item.image} alt={item.name} />
 			<CardBody>
 				<CardTitle>{item.name}</CardTitle>
 				{"designation" in item ? (
@@ -31,20 +36,14 @@ function RenderCard({ item, isLoading, errMess }) {
 }
 
 const Home = ({ dish, promotion, leader }) => {
-	const { isLoading, errMess } = useSelector((state) => state.dishes)
-
 	return (
 		<div className="container">
 			<div className="row align-items-start">
 				<div className="col-12 col-md m-1">
-					<RenderCard
-						item={dish}
-						isLoading={isLoading}
-						errMess={errMess}
-					/>
+					<RenderCard item={dish} itemType="dishes" />
 				</div>
 				<div className="col-12 col-md m-1">
-					<RenderCard item={promotion} />
+					<RenderCard item={promotion} itemType="promotions" />
 				</div>
 				<div className="col-12 col-md m-1">
 					<RenderCard item={leader} />
